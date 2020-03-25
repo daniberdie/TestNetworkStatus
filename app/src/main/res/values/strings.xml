@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">TestNetworkStatus</string>
+    <string name="mobile">Mobile connected!</string>
+    <string name="wifi">Wifi connected!</string>
+    <string name="disconnected">No network operating!!</string>
+</resources>
