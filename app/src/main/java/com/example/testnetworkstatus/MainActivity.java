@@ -24,26 +24,37 @@ public class MainActivity extends AppCompatActivity
         textView1 = findViewById(R.id.textView1);
         textView2 = findViewById(R.id.textView2);
 
+        new AsyncConnectionCheck().execute();
+
+    }
+
+    public class AsyncConnectionCheck extends AsyncTask<String, String, String>
+    {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 
-        if (networkInfo != null) {
+        @Override
+        protected String doInBackground(String... strings) {
+
+            if (networkInfo != null) {
+                //textView1.setText(networkInfo.toString());
+                if (networkInfo.isConnected()) {
+                    if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
+                        return "Wifi connected!"; //textView2.setText(R.string.wifi);
+                    }
+                    if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
+                        return "Mobile connected!";//textView2.setText(R.string.mobile);
+                    }
+                }
+            }
+            return "disconnected";
+        }
+
+        @Override
+        protected void onPostExecute(String result)
+        {
             textView1.setText(networkInfo.toString());
-            if (networkInfo.isConnected())
-            {
-                if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI)
-                {
-                    textView2.setText(R.string.wifi);
-                }
-                if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE)
-                {
-                    textView2.setText(R.string.mobile);
-                }
-            }
-            else
-            {
-                textView2.setText(R.string.disconnected);
-            }
+            textView2.setText(result);
         }
     }
 }
