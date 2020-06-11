@@ -53,7 +53,8 @@ public class MainActivity extends AppCompatActivity
         @Override
         protected void onPostExecute(String result)
         {
-            textView1.setText(networkInfo.toString());
+            if(result.equals("disconnected")) textView1.setText("No network operating!");
+            else textView1.setText(networkInfo.toString());
             textView2.setText(result);
         }
     }
